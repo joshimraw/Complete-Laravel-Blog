@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Brian2694\Toastr\Facades\Toastr;
+use App\Category;
 
 class CategoryController extends Controller
 {
@@ -14,7 +16,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return view('admin.categories.index');
+        $categories = Category::latest()->get();
+        return view('admin.categories.index')->withCategories($categories);
     }
 
     /**
@@ -35,7 +38,17 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, array(
+            'name'  => 'required'
+        ));
+
+        $cat = new Category;
+        $cat->name = $request->name;
+        $cat->slug = str_slug($cat->name);
+        $cat->save();
+
+        Toastr::success('Category added successfully', 'Success!');
+        return redirect()->route('admin.category.index');
     }
 
     /**
@@ -80,6 +93,10 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $cat = Category::find($id);
+        $cat->delete();
+
+        Toastr::warning('Category has deleted ', 'Deleted!');
+        return redirect()->route('admin.category.index');
     }
 }

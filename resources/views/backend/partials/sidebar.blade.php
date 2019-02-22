@@ -47,19 +47,10 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="javascript:void(0);" class="menu-toggle">
-                            <i class="material-icons">perm_media</i>
+                        <a href="{{route('admin.category.index')}}">
+                            <i class="material-icons">label</i>
                             <span>Category</span>
                         </a>
-                        <ul class="ml-menu">
-                            <li>
-                                <a href="{{ route('admin.category.index') }}">All Category</a>
-                            </li>
-                            <li>
-                                <a href="{{ route('admin.category.create') }}">New Category</a>
-                            </li>
-                            
-                        </ul>
                     </li>
                     <li>
                         <a href="{{route('admin.tag.index')}}">

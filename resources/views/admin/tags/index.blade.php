@@ -6,20 +6,22 @@
 <section class="content">
     <div class="container-fluid">
         <div class="block-header">
-        	<div class="col-sm-6">
-			<div class="form-group">
-	            <div class="form-line">
-	                <input type="text" class="form-control" placeholder="">
-	            </div>
-	        </div>
-	    </div>
-	    <div class="col-sm-6">
-	    	<button type="button" class="btn btn-primary waves-effect">
-	            <i class="material-icons">add</i>
-	            <span>Add New Tag</span>
-	        </button>
-	    </div>
-
+            <form action="{{ route('admin.tag.store') }}" method='post'>
+                @csrf
+            	<div class="col-sm-6">
+    			<div class="form-group">
+    	            <div class="form-line">
+    	                <input name="name" type="text" class="form-control" placeholder=" Tag Name">
+    	            </div>
+    	        </div>
+    	    </div>
+    	    <div class="col-sm-6">
+    	    	<button type="submit" class="btn btn-primary waves-effect">
+    	            <i class="material-icons">add</i>
+    	            <span>Add New Tag</span>
+    	        </button>
+    	    </div>
+        </form>
         </div>
 <div class="row clearfix">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -52,17 +54,23 @@
                                 <th>Name</th>
                                 <th>Created</th>
                                 <th>Update</th>
+                                <th>Delete</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($tags as $tag)
+                            @foreach($tags as $key=>$tag)
 								<tr>
 									<td>
 										<input type="checkbox" id="{!! $tag->id !!}" class="filled-in chk-col-light-blue">
-										<label for="{!! $tag->id !!}"> {{$tag->id}}</label></td>
+										<label for="{!! $tag->id !!}"> {{$key + 1 }}</label></td>
 									<td>{{$tag->name}}</td>
 									<td>{{ date('M j, Y', strtotime($tag->created_at)) }}</td>
 									<td>{{ date('M j, Y', strtotime($tag->updated_at)) }}</td>
+                                    <td>
+                                       {!! Form::open(['route'=>['admin.tag.destroy', $tag->id], 'method'=>'delete']) !!}
+                                       {!! Form::submit('Delete', ['class'=>'btn bg-red btn-sm waves-effect']) !!}
+                                       {!! Form::close() !!}
+                                    </td>
 								</tr>
                             @endforeach
                     </table>

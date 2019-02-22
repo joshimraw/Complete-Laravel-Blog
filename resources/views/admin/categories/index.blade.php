@@ -1,30 +1,33 @@
 @extends('backend.layout')
 
-@section('title', '| Categories')
+@section('title', '| Categoris')
 
 @section('content')
 <section class="content">
     <div class="container-fluid">
         <div class="block-header">
-            <div class="col-sm-6">
+            <form action="{{ route('admin.category.store') }}" method='post'>
+                @csrf
+                <div class="col-sm-6">
                 <div class="form-group">
                     <div class="form-line">
-                        <input type="text" class="form-control" placeholder="">
+                        <input name="name" type="text" class="form-control" placeholder=" Category Name">
                     </div>
                 </div>
             </div>
             <div class="col-sm-6">
-                <button type="button" class="btn btn-primary waves-effect">
+                <button type="submit" class="btn btn-primary waves-effect">
                     <i class="material-icons">add</i>
                     <span>Add New Category</span>
                 </button>
             </div>
+        </form>
         </div>
 <div class="row clearfix">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="card">
             <div class="header">
-                <h2>All Categories
+                <h2>All Tags
                 </h2>
                 <ul class="header-dropdown m-r--5">
                     <li class="dropdown">
@@ -45,25 +48,31 @@
                         <thead>
                             <tr>
                                 <th>
-                                	<input type="checkbox" id="check_all" class="filled-in chk-col-light-blue">
-                                	<label for="check_all"><strong>All ID</strong></label>
+                                    <input type="checkbox" id="check_all" class="filled-in chk-col-light-blue">
+                                    <label for="check_all"><strong>All ID</strong></label>
                                 </th>
                                 <th>Name</th>
                                 <th>Created</th>
                                 <th>Update</th>
+                                <th>Delete</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- @foreach($tags as $tag) --}}
-								<tr>
-									<td>
-										<input type="checkbox" id="" class="filled-in chk-col-light-blue">
-										<label for=""> 1</label></td>
-                                    <td>Name</td>
-                                    <td>20.02.2019</td>
-									<td>21.02.2019</td>
-								</tr>
-                           {{--  @endforeach --}}
+                            @foreach($categories as $key=>$category)
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" id="{!! $category->id !!}" class="filled-in chk-col-light-blue">
+                                        <label for="{!! $category->id !!}"> {{ $key + 1 }}</label></td>
+                                    <td>{{$category->name}}</td>
+                                    <td>{{ date('M j, Y', strtotime($category->created_at)) }}</td>
+                                    <td>{{ date('M j, Y', strtotime($category->updated_at)) }}</td>
+                                    <td>
+                                       {!! Form::open(['route'=>['admin.category.destroy', $category->id], 'method'=>'delete']) !!}
+                                       {!! Form::submit('Delete', ['class'=>'btn bg-red btn-sm waves-effect']) !!}
+                                       {!! Form::close() !!}
+                                    </td>
+                                </tr>
+                            @endforeach
                     </table>
                 </div>
             </div>

@@ -22,6 +22,7 @@
 
     <link href="{{asset('backend/css/style.min.css')}}" rel="stylesheet">
     <link href="{{asset('backend/css/theme-blue.min.css')}}" rel="stylesheet" />
+    <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
     @stack('styles')
 
 </head>
@@ -47,6 +48,18 @@
 
     <!-- Custom Js -->
     <script src="{{asset('backend/js/admin.js')}}"></script>
+        <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
+        {!! Toastr::message() !!}
+        <script>
+            @if($errors->any())
+                @foreach($errors->all() as $error)
+                    toastr.error('{{$error}}'), 'Error',{
+                        closeButton: true,
+                        progressBar:false
+                    }
+                @endforeach
+            @endif
+        </script>
 
     @stack('script')
     </body>
