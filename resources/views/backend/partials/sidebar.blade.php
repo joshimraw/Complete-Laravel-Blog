@@ -1,4 +1,5 @@
  <section>
+    {{-- class = "{{Request::is('admin/post*')? 'active':''}}" --}}
         <!-- Left Sidebar -->
         <aside id="leftsidebar" class="sidebar">
             <!-- User Info -->
@@ -24,14 +25,14 @@
             <div class="menu">
                 <ul class="list">
                     <li class="header">MAIN NAVIGATION</li>
-                    <li class="active">
+                    <li class="{{Request::is('admin/dashboard')?'active':''}}">
                         <a href="{{ route('admin.dashboard') }}">
                             <i class="material-icons">home</i>
                             <span>Home</span>
                         </a>
                     </li>
                 
-                    <li>
+                    <li class="{{Request::is('admin/post*')?'active':''}}">
                         <a href="javascript:void(0);" class="menu-toggle">
                             <i class="material-icons">perm_media</i>
                             <span>Posts</span>
@@ -46,13 +47,13 @@
 
                         </ul>
                     </li>
-                    <li>
+                    <li class="{{Request::is('admin/category')?'active':''}}">
                         <a href="{{route('admin.category.index')}}">
                             <i class="material-icons">label</i>
                             <span>Category</span>
                         </a>
                     </li>
-                    <li>
+                    <li class="{{Request::is('admin/tag')?'active':''}}">
                         <a href="{{route('admin.tag.index')}}">
                             <i class="material-icons">label</i>
                             <span>Tags</span>

@@ -1,5 +1,5 @@
 <?php
-
+use Illuminate\Support\Facades\Notification;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -10,6 +10,11 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+// BLOG 
+Route::post('subscriber', 'SubscriberController@store')->name('subscriber.store');
+
+
 
 
 // ADMIN ROUTES ==============
@@ -32,7 +37,8 @@ Route::group(['as'=>'author.', 'prefix'=>'author', 'namespace'=>'Author', 'middl
 
 Auth::routes();
 
-// Route::get('/home', 'HomeController@index')->name('home');
+
+// LOGIN LOGOUT
 Route::get('logout', function(){
    Auth::logout();
    return Redirect::to('login');
@@ -42,3 +48,9 @@ Route::get('/', function () {
     return view('frontend.index');
 });
 
+
+// Function Route
+Route::get('markasread', function(){
+	Auth::user()->notifications->markasRead();
+	return redirect()->route('admin.tag.index');
+})->name('markasread');

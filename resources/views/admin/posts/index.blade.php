@@ -6,10 +6,10 @@
 <section class="content">
     <div class="container-fluid">
         <div class="block-header">
-	    	<button type="button" class="btn btn-primary waves-effect">
+	    	<a href="{{route('admin.post.create')}}" class="btn btn-primary waves-effect">
 	            <i class="material-icons">add</i>
 	            <span>Add New Posts</span>
-	        </button>
+	        </a>
         </div>
 <div class="row clearfix">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -39,20 +39,42 @@
                                 	<input type="checkbox" id="check_all" class="filled-in chk-col-light-blue">
                                 	<label for="check_all"><strong>All ID</strong></label>
                                 </th>
+                                <th>Author</th>
                                 <th>Name</th>
-                                <th>Created</th>
+                                <th>body</th>
+                                <th>View</th>
+                                <th>Status</th>
+                                <th>Approved</th>
                                 <th>Update</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
+
+                            @foreach($posts as $key => $post)
 								<tr>
 									<td>
 										<input type="checkbox" id="" class="filled-in chk-col-light-blue">
-										<label for=""> 1</label></td>
-                                    <td>Name</td>
-                                    <td>21.02.219</td>
-                                    <td>21.02.219</td>
+										<label for=""> {{ $key + 1 }}</label>
+                                    </td>
+                                    <td>{{ $post->user->name }}</td>
+                                    <td>{{ str_limit( $post->title, 12) }}</td>
+                                    <td>{{ str_limit( $post->body, 18 ) }}</td>
+                                    <td class="text-center">2</td>
+                                    <td>{{ ($post->status == 1) ? 'Published' : 'Draft'  }}</td>
+                                    <td>{{ ($post->is_approved == 1) ? 'Approved' : 'Pending' }}</td>
+                                    <td>{{ date('M j, Y', strtotime($post->updated_at)) }}</td>
+                                    <td>
+                                        <a href="{{ route('admin.post.show', $post->id) }}">
+                                            <i class="material-icons">visibility</i>
+                                        </a>
+                                        <a href="{{ route('admin.post.edit', $post->id) }}">
+                                            <i class="material-icons">edit</i>
+                                        </a>
+                                        
+                                    </td>
 								</tr>
+                            @endforeach
                     </table>
                 </div>
             </div>

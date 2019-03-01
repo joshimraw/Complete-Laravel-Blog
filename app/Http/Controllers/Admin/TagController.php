@@ -5,7 +5,11 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Brian2694\Toastr\Facades\Toastr;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\NotifyToAdmin;
 use App\Tag;
+use App\User;
+
 
 class TagController extends Controller
 {
@@ -46,6 +50,9 @@ class TagController extends Controller
         $tag->name = $request->name;
         $tag->slug = str_slug($tag->name);
         $tag->save();
+
+        $users = User::where('role_id', '1')->get();
+        Notification::send($users, new NotifyToAdmin($tag));
 
         Toastr::success('Tag Added Succesfully','Success');
         return redirect()->route('admin.tag.index');

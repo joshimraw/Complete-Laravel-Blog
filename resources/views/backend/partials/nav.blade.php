@@ -32,53 +32,36 @@
                     <li class="dropdown">
                         <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
                             <i class="material-icons">notifications</i>
-                            <span class="label-count">7</span>
+                            <span class="label-count">{{ auth::user()->unreadNotifications->count() }}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <li class="header">NOTIFICATIONS</li>
+                        
                             <li class="body">
                                 <ul class="menu">
                                    
+                             {{--       {!! $user = App\User::find(1) !!} --}}
+
+                                   @foreach(auth::user()->unreadNotifications as $notification)
+                                     
+                                 
                                     <li>
-                                        <a href="javascript:void(0);">
+                                        <a href="{{route('markasread')}}">
                                             <div class="icon-circle bg-cyan">
-                                                <i class="material-icons">add_shopping_cart</i>
+                                                <i class="material-icons">label</i>
                                             </div>
                                             <div class="menu-info">
-                                                <h4>4 sales made</h4>
+                                                <h4>{{ $notification->data['note'] }}</h4>
+                                                <p>{{ $notification->data['tagname']. ' By '. $notification->data['author'] }}</p>
                                                 <p>
-                                                    <i class="material-icons">access_time</i> 22 mins ago
+                                                    <i class="material-icons">access_time</i> 
+                                                    {{ $notification->created_at->diffForHumans() }}
                                                 </p>
                                             </div>
                                         </a>
                                     </li>
-                                    <li>
-                                        <a href="javascript:void(0);">
-                                            <div class="icon-circle bg-red">
-                                                <i class="material-icons">delete_forever</i>
-                                            </div>
-                                            <div class="menu-info">
-                                                <h4><b>Nancy Doe</b> deleted account</h4>
-                                                <p>
-                                                    <i class="material-icons">access_time</i> 3 hours ago
-                                                </p>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    
-                                    <li>
-                                        <a href="javascript:void(0);">
-                                            <div class="icon-circle bg-purple">
-                                                <i class="material-icons">settings</i>
-                                            </div>
-                                            <div class="menu-info">
-                                                <h4>Settings updated</h4>
-                                                <p>
-                                                    <i class="material-icons">access_time</i> Yesterday
-                                                </p>
-                                            </div>
-                                        </a>
-                                    </li>
+
+                                    @endforeach
                                 </ul>
                             </li>
                             <li class="footer">
