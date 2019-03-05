@@ -16,8 +16,13 @@ Route::post('subscriber', 'SubscriberController@store')->name('subscriber.store'
 
 
 
+// GENERAL ROUTE GROUP==============
+Route::group(['middleware'=>['auth']], function(){
+	Route::post('favourite/{post}/add', ['as'=>'post.favourite', 'uses'=>'FavouriteController@add']);
+});
 
-// ADMIN ROUTES ==============
+
+// ADMIN ROUTES GROUP ==============
 Route::group(['as'=>'admin.', 'prefix'=>'admin', 'namespace'=>'Admin', 'middleware'=>['auth', 'admin']], function()
 {
 	Route::get('dashboard', ['as'=>'dashboard', 'uses'=>'DashboardController@index']);
@@ -29,7 +34,7 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin', 'namespace'=>'Admin', 'middlewa
 });
 
 
-// AUTHOR ROUTES ==============
+// AUTHOR ROUTES GROUP ==============
 Route::group(['as'=>'author.', 'prefix'=>'author', 'namespace'=>'Author', 'middleware'=>['auth', 'author']], function()
 {
 	Route::get('dashboard', ['as'=>'dashboard', 'uses'=>'DashboardController@index']);
@@ -37,16 +42,23 @@ Route::group(['as'=>'author.', 'prefix'=>'author', 'namespace'=>'Author', 'middl
 
 Auth::routes();
 
+// PAGES
+Route::get('/', ['as'=>'home', 'uses'=>'HomeController@index']);
+
+
+
+
+
 
 // LOGIN LOGOUT
 Route::get('logout', function(){
    Auth::logout();
-   return Redirect::to('login');
+
+   return redirect()->back();	
+   return redirect()->route('login');
 });
 
-Route::get('/', function () {
-    return view('frontend.index');
-});
+
 
 
 // Function Route

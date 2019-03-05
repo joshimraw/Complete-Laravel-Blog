@@ -51,8 +51,8 @@ class TagController extends Controller
         $tag->slug = str_slug($tag->name);
         $tag->save();
 
-        $users = User::where('role_id', '1')->get();
-        Notification::send($users, new NotifyToAdmin($tag));
+        // $users = User::where('role_id', '1')->get();
+        // Notification::send($users, new NotifyToAdmin($tag));
 
         Toastr::success('Tag Added Succesfully','Success');
         return redirect()->route('admin.tag.index');

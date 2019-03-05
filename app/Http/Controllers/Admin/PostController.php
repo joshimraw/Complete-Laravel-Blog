@@ -89,11 +89,11 @@ class PostController extends Controller
 
         $subscribers = Subscriber::all();
 
-        foreach($subscribers as $subscriber){
+        // foreach($subscribers as $subscriber){
 
-        Notification::route('mail', $subscriber->email)->notify(new NotifyToSubscriber($post));
+        // Notification::route('mail', $subscriber->email)->notify(new NotifyToSubscriber($post));
 
-        }
+        // }
 
         Toastr::success('Post added successfully', 'Success');
         return redirect()->route('admin.post.index');

@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Brian2694\Toastr\Facades\Toastr;
 use App\Category;
-
+use Image;
+use Storage;
 class CategoryController extends Controller
 {
     /**
@@ -39,12 +40,25 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, array(
-            'name'  => 'required'
+            'name'  => 'required',
+            'image' => 'required|image',
         ));
+
+        $slug = str_slug($request->name);
+
+        if($request->hasFile('image')){
+            $image          = $request->file('image');
+            $img_path       = $slug.'-'.uniqid().$image->getClientOriginalExtension();
+            $img_location   = public_path('frontend/images/'.$img_path);
+            Image::make($image)->resize(275, 185)->save($img_location);
+        }else{
+            $img_path = 'default-cat.jpeg';
+        }
 
         $cat = new Category;
         $cat->name = $request->name;
         $cat->slug = str_slug($cat->name);
+        $cat->image = $img_path;
         $cat->save();
 
         Toastr::success('Category added successfully', 'Success!');
@@ -95,6 +109,7 @@ class CategoryController extends Controller
     {
         $cat = Category::find($id);
         $cat->delete();
+        Storage::delete($cat->image);
 
         Toastr::warning('Category has deleted ', 'Deleted!');
         return redirect()->route('admin.category.index');

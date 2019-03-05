@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Post;
+use App\Category;
+use App\Tag;
+
 class HomeController extends Controller
 {
     /**
@@ -13,7 +17,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        
     }
 
     /**
@@ -23,6 +27,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('author.dashboard');
+        $posts      = Post::latest()->take('5')->get();
+        $categories = Category::all();
+        $tags       = Tag::all();
+        return view('frontend.index', compact('posts', 'categories', 'tags'));
     }
 }

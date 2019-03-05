@@ -6,20 +6,30 @@
 <section class="content">
     <div class="container-fluid">
         <div class="block-header">
-            <form action="{{ route('admin.category.store') }}" method='post'>
+            <form action="{{ route('admin.category.store') }}" method='post' enctype="multipart/form-data">
                 @csrf
-                <div class="col-sm-6">
-                <div class="form-group">
-                    <div class="form-line">
-                        <input name="name" type="text" class="form-control" placeholder=" Category Name">
+                <div class="col-sm-9">
+                    <div class="row">
+                        <div class="col-md-7">
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <input name="name" type="text" class="form-control" placeholder=" Category Name">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <input type="file" name="image" class="form-control"> 
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <button type="submit" class="btn btn-primary waves-effect">
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary waves-effect">
                     <i class="material-icons">add</i>
                     <span>Add New Category</span>
                 </button>
+                </div>
             </div>
         </form>
         </div>
@@ -52,6 +62,7 @@
                                     <label for="check_all"><strong>All ID</strong></label>
                                 </th>
                                 <th>Name</th>
+                                <th>Images</th>
                                 <th>Created</th>
                                 <th>Update</th>
                                 <th>Delete</th>
@@ -64,6 +75,7 @@
                                         <input type="checkbox" id="{!! $category->id !!}" class="filled-in chk-col-light-blue">
                                         <label for="{!! $category->id !!}"> {{ $key + 1 }}</label></td>
                                     <td>{{$category->name}}</td>
+                                    <td>{{ $category->image }}</td>
                                     <td>{{ date('M j, Y', strtotime($category->created_at)) }}</td>
                                     <td>{{ date('M j, Y', strtotime($category->updated_at)) }}</td>
                                     <td>
