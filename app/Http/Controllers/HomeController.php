@@ -27,9 +27,19 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $posts      = Post::latest()->take('5')->get();
+        $posts      = Post::latest()->approved()->take('5')->get();
         $categories = Category::all();
         $tags       = Tag::all();
         return view('frontend.index', compact('posts', 'categories', 'tags'));
+    }
+
+    public function search(Request $request){
+
+        $query  = $request->input('query');
+        
+        $posts = Post::where('title', 'LIKE', "%$query%")->get();
+
+        return view('frontend.search', compact('posts'));
+
     }
 }

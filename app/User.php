@@ -6,6 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Role;
 use App\Post;
+use App\Comment;
 
 class User extends Authenticatable
 {
@@ -38,5 +39,9 @@ class User extends Authenticatable
 
     public function favourite_posts(){
         return $this->belongsToMany('App\Post')->withTimestamps();
+    }
+
+    public function comments(){
+        return $this->hasMany('App\Comment');
     }
 }

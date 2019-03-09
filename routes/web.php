@@ -19,6 +19,7 @@ Route::post('subscriber', 'SubscriberController@store')->name('subscriber.store'
 // GENERAL ROUTE GROUP==============
 Route::group(['middleware'=>['auth']], function(){
 	Route::post('favourite/{post}/add', ['as'=>'post.favourite', 'uses'=>'FavouriteController@add']);
+	Route::post('comment/{post}', ['as'=>'comment.store', 'uses'=>'CommentController@store']);
 });
 
 
@@ -44,6 +45,8 @@ Auth::routes();
 
 // PAGES
 Route::get('/', ['as'=>'home', 'uses'=>'HomeController@index']);
+Route::get('post/{slug}', ['as'=>'post.details', 'uses'=>'PostController@details']);
+Route::get('search', ['as'=>'search', 'uses'=>'HomeController@search']);
 
 
 

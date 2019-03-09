@@ -107,6 +107,8 @@ class PostController extends Controller
      */
     public function show($id)
     {
+        // for user primission
+        // if(post->user->id != Auth::user->id){redirect somewhre}
         $post = Post::find($id);
 
         return view('admin.posts.show')->withPost($post);
@@ -136,6 +138,8 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
+         // if(post->user->id != Auth::user->id){redirect somewhre}
+
         $this->validate($request, array(
             'title'     => 'required',
             'image'     => 'image',
@@ -194,6 +198,8 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
+         // if(post->user->id != Auth::user->id){redirect somewhre}
+        
         $post = Post::find($id);
 
         // $post->tags->detach();
